@@ -5,9 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Navigation from "@/components/Navigation";
 import { Search, Filter, Download } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Customers = () => {
-  const customers = [
+  const { toast } = useToast();
+  
+  const [customers, setCustomers] = useState([
     {
       id: 1,
       name: "Sandor Jess",
@@ -48,7 +52,64 @@ const Customers = () => {
       predictedChurn: "High",
       initials: "LC"
     }
-  ];
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const addCustomer = () => {
+    const newCustomers = [
+      {
+        id: customers.length + 1,
+        name: "Alex Johnson",
+        email: "alex.johnson@email.com",
+        segment: "New",
+        lastActivity: "Just now",
+        totalSpent: "$0",
+        predictedChurn: "Low",
+        initials: "AJ"
+      },
+      {
+        id: customers.length + 2,
+        name: "Sarah Davis",
+        email: "sarah.davis@email.com",
+        segment: "Growing",
+        lastActivity: "5 minutes ago",
+        totalSpent: "$125",
+        predictedChurn: "Low",
+        initials: "SD"
+      },
+      {
+        id: customers.length + 3,
+        name: "Michael Brown",
+        email: "michael.brown@email.com",
+        segment: "High Value",
+        lastActivity: "1 hour ago",
+        totalSpent: "$1,890",
+        predictedChurn: "Medium",
+        initials: "MB"
+      }
+    ];
+    
+    const randomCustomer = newCustomers[Math.floor(Math.random() * newCustomers.length)];
+    setCustomers([randomCustomer, ...customers]);
+    
+    toast({
+      title: "Customer Added",
+      description: `${randomCustomer.name} has been added to your database.`,
+    });
+  };
+
+  const exportData = () => {
+    toast({
+      title: "Export Started",
+      description: "Your customer data is being exported to CSV format.",
+    });
+  };
+
+  const filteredCustomers = customers.filter(customer =>
+    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
@@ -62,11 +123,11 @@ const Customers = () => {
           </div>
           
           <div className="flex gap-3">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="outline" className="flex items-center gap-2" onClick={exportData}>
               <Download className="w-4 h-4" />
               Export
             </Button>
-            <Button className="bg-purple-600 hover:bg-purple-700">
+            <Button className="bg-purple-600 hover:bg-purple-700" onClick={addCustomer}>
               Add Customer
             </Button>
           </div>
@@ -79,6 +140,8 @@ const Customers = () => {
               <input
                 type="text"
                 placeholder="Search customers..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
@@ -89,7 +152,7 @@ const Customers = () => {
           </div>
 
           <div className="space-y-4">
-            {customers.map((customer) => (
+            {filteredCustomers.map((customer) => (
               <div key={customer.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <Avatar className="w-12 h-12">

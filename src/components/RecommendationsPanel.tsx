@@ -1,15 +1,50 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const RecommendationsPanel = () => {
+  const { toast } = useToast();
+  const [selectedItem, setSelectedItem] = useState("Men's colourful pants collection");
+  
   const recommendations = [
-    "Men's colourful pants collection",
-    "Colourful ergonomic chair",
-    "Chic elegance dining chair",
-    "Colourful decorative vase",
-    "Chic modern ceramic vase"
+    {
+      name: "Men's colourful pants collection",
+      price: "£350.10",
+      category: "Men's pants collection"
+    },
+    {
+      name: "Colourful ergonomic chair",
+      price: "£289.99",
+      category: "Office furniture"
+    },
+    {
+      name: "Chic elegance dining chair",
+      price: "£199.50",
+      category: "Dining furniture"
+    },
+    {
+      name: "Colourful decorative vase",
+      price: "£85.25",
+      category: "Home decor"
+    },
+    {
+      name: "Chic modern ceramic vase",
+      price: "£120.75",
+      category: "Home decor"
+    }
   ];
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item.name);
+    toast({
+      title: "Item Selected",
+      description: `${item.name} - ${item.price}`,
+    });
+  };
+
+  const selectedItemData = recommendations.find(item => item.name === selectedItem) || recommendations[0];
 
   return (
     <div className="space-y-4">
@@ -23,9 +58,14 @@ const RecommendationsPanel = () => {
                 key={index}
                 variant="secondary"
                 size="sm"
-                className="w-full text-left justify-start bg-white/20 hover:bg-white/30 text-white border-0 h-auto py-2 px-3 whitespace-normal text-xs"
+                onClick={() => handleItemClick(item)}
+                className={`w-full text-left justify-start border-0 h-auto py-2 px-3 whitespace-normal text-xs transition-all ${
+                  selectedItem === item.name 
+                    ? "bg-white/40 hover:bg-white/50 text-white" 
+                    : "bg-white/20 hover:bg-white/30 text-white"
+                }`}
               >
-                {item}
+                {item.name}
               </Button>
             ))}
           </div>
@@ -36,8 +76,8 @@ const RecommendationsPanel = () => {
             </div>
             <div className="text-xs space-y-1 text-center">
               <p><strong>Details</strong></p>
-              <p>Price: £350.10</p>
-              <p>Category: Men's pants collection</p>
+              <p>Price: {selectedItemData.price}</p>
+              <p>Category: {selectedItemData.category}</p>
             </div>
           </div>
         </div>
