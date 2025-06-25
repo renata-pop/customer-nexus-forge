@@ -23,23 +23,20 @@ const CustomerDashboard = () => {
           </p>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* AI Predictions Panel */}
-          <Card className="p-6 bg-white rounded-2xl shadow-xl border-0">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">AI</span>
-              </div>
-              <h2 className="text-xl font-semibold">AI Predictions</h2>
+        {/* AI Predictions Panel - Full Width */}
+        <Card className="p-6 bg-white rounded-2xl shadow-xl border-0">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+              <span className="text-white text-sm font-bold">AI</span>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <ProfileSection />
-              <RecommendationsPanel />
-            </div>
-          </Card>
-        </div>
+            <h2 className="text-xl font-semibold">AI Predictions</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ProfileSection />
+            <RecommendationsPanel />
+          </div>
+        </Card>
 
         {/* Bottom Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
