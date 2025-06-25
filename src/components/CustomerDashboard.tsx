@@ -16,7 +16,7 @@ const CustomerDashboard = () => {
         {/* Header */}
         <div className="space-y-2">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Customer Intelligence Dashboard
+            CM Platform
           </h1>
           <p className="text-gray-600 max-w-2xl">
             Real-time insights and AI-powered predictions for your customer journey optimization.
